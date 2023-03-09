@@ -10,6 +10,7 @@ router.route('/update')
 
 router.route('/field')
   .post(contentController.addFeatureToContentType)
-  .patch(contentController.editFeatureNameOfContentType);
+  .patch(contentController.editFeatureNameOfContentType)
+  .delete(contentController.deleteFieldOfContentType);
 
 module.exports = router;

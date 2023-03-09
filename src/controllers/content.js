@@ -56,4 +56,18 @@ const editFeatureNameOfContentType = async (req, res) => {
   }
 };
 
-module.exports = { createContentType, updateContentType, addFeatureToContentType, editFeatureNameOfContentType };
+const deleteFieldOfContentType = async (req, res) => {
+  try {
+    const { id, field_name } = req.body;
+    const updatedContentType = await contentService.deleteFieldOfContentType(id, field_name);
+    res.status(200).json({
+      data: updatedContentType
+    });
+  } catch (error) {
+    res.status(500).json({
+      error: error.message
+    });
+  }
+};
+
+module.exports = { createContentType, updateContentType, addFeatureToContentType, editFeatureNameOfContentType,deleteFieldOfContentType };

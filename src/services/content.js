@@ -42,4 +42,18 @@ const editFeatureNameOfContentType = async (id, field_name, new_field_name) => {
   return { message: 'Edited Field Successfully' };
 };
 
-module.exports = { createContentType, updateContentType, addFeatureToContentType, editFeatureNameOfContentType };
+const deleteFieldOfContentType = async (id, field_name) => {
+  const contentType = await ContentType.findOne({ where: { id }});
+  const newFields = { ...contentType.field };
+  delete newFields[field_name];
+  await ContentType.update({ field: newFields }, { where: { id }});
+  const allContent = await Content.findAll({ where: { content_type_id: contentType.id } });
+  await Promise.all(allContent.map((eachContent) => {
+    const newValue = {...eachContent.value };
+    delete newValue[field_name];
+    Content.update({ value: newValue}, { where: { id: eachContent.id } });
+  }));
+  return { message: 'Field Deleted Successfully' };
+};
+
+module.exports = { createContentType, updateContentType, addFeatureToContentType, editFeatureNameOfContentType, deleteFieldOfContentType };
