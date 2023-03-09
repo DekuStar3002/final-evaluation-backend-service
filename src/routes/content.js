@@ -8,4 +8,8 @@ router.route('/save')
 router.route('/update')
   .post(contentController.updateContentType);
 
+router.route('/field')
+  .post(contentController.addFeatureToContentType)
+  .patch(contentController.editFeatureNameOfContentType);
+
 module.exports = router;
