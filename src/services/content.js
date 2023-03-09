@@ -22,9 +22,9 @@ const addFeatureToContentType = async (id, field_name, field_type) => {
   await ContentType.update({ field: newFields }, { where: { id }});
   const allContent = await Content.findAll({ where: { content_type_id: contentType.id } });
   await Promise.all(allContent.map((eachContent) => {
-    const newValue = { ...eachContent.value };
+    const newValue = { ...eachContent.values };
     newValue[field_name] = null;
-    Content.update({ value: newValue}, { where: { id: eachContent.id } });
+    Content.update({ values: newValue }, { where: { id: eachContent.id } });
   }));
   return { message: 'Field Added Successfully' };
 };
