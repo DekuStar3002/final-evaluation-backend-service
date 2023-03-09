@@ -15,6 +15,9 @@ const updateContentType = async (name, id) => {
 const addFeatureToContentType = async (id, field_name, field_type) => {
   const contentType = await ContentType.findOne({ where: { id }});
   const newFields = { ...contentType.field };
+  if(`${field_name}` in newFields) {
+    throw new Error('Field already exists');
+  }
   newFields[field_name] = field_type;
   await ContentType.update({ field: newFields }, { where: { id }});
   const allContent = await Content.findAll({ where: { content_type_id: contentType.id } });
