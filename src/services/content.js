@@ -2,8 +2,14 @@ const { Content, ContentType, Collection } = require('../../database/models');
 
 const createContentType = async (name) => {
   const newCollection = await Collection.create({ name });
-  const newContentType = await ContentType.create({ name, collection_id: newCollection.id });
-  return newContentType;
+  return ContentType.create({ name, collection_id: newCollection.id });
 };
 
-module.exports = { createContentType };
+const updateContentType = async (name, id) => {
+  await ContentType.update({ name }, { where: { id } });
+  const updatedContentType = await ContentType.findOne({ where: { id } });
+  await Collection.update({ name }, { where: { id: updatedContentType.collection_id } });
+  return updatedContentType;
+};
+
+module.exports = { createContentType, updateContentType };
