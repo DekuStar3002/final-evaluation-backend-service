@@ -78,4 +78,22 @@ describe('Content Controller', () => {
       expect(result).toEqual({ message: 'Edited Field Successfully' });
     });
   });
+
+  describe('Delete Feature of Content Type', () => { 
+    it('should delete a Feature of Content Type', async () => { 
+      jest.spyOn(ContentType, 'findOne').mockResolvedValue({ 
+        id: 1,
+        collection_id: 1,
+        name: 'test name',
+        field: {
+          feat1: 'value1'
+        }
+      });
+      jest.spyOn(ContentType, 'update').mockResolvedValue();
+      jest.spyOn(Content, 'findAll').mockResolvedValue([ '1', '2' ]);
+      jest.spyOn(Promise, 'all').mockResolvedValue();
+      const result = await contentService.deleteFieldOfContentType(1, 'test_field');
+      expect(result).toEqual({ message: 'Field Deleted Successfully' });
+    });
+  });
 });

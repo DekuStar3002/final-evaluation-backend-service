@@ -130,5 +130,35 @@ describe('Content Controller', () => {
         expect(mockRes.json).toBeCalledWith({ error: 'Internal Server Error' });
       });
     });
+
+    describe('Delete Field Of Content Type', () => { 
+      it('should delete feature of content type', async () => {
+        jest.spyOn(contentService, 'deleteFieldOfContentType').mockResolvedValue({ message: 'Field Deleted Successfully' });
+        const mockReq = {
+          body: jest.fn()
+        };
+        const mockRes = {
+          status: jest.fn().mockReturnThis(),
+          json: jest.fn(),
+        };
+        await contentController.deleteFieldOfContentType(mockReq, mockRes);
+        expect(mockRes.status).toBeCalledWith(200);
+        expect(mockRes.json).toBeCalledWith({ data: { message: 'Field Deleted Successfully' } });
+      });
+
+      it('should send error message', async () => {
+        jest.spyOn(contentService, 'deleteFieldOfContentType').mockRejectedValue(new Error('Internal Server Error'));
+        const mockReq = {
+          body: jest.fn()
+        };
+        const mockRes = {
+          status: jest.fn().mockReturnThis(),
+          json: jest.fn(),
+        };
+        await contentController.deleteFieldOfContentType(mockReq, mockRes);
+        expect(mockRes.status).toBeCalledWith(500);
+        expect(mockRes.json).toBeCalledWith({ error: 'Internal Server Error' });
+      });
+    });
   });
 });
