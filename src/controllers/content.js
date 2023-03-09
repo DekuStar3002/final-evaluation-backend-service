@@ -28,4 +28,18 @@ const updateContentType = async (req, res) => {
   }
 };
 
-module.exports = { createContentType, updateContentType };
+const addFeatureToContentType = async (req, res) => {
+  try {
+    const { id, field_name, field_type } = req.body;
+    const updatedContentType = await contentService.addFeatureToContentType(id, field_name, field_type);
+    res.status(200).json({
+      data: updatedContentType
+    });
+  } catch (error) {
+    res.status(500).json({
+      error: error.message
+    });
+  }
+};
+
+module.exports = { createContentType, updateContentType, addFeatureToContentType };

@@ -1,4 +1,4 @@
-const { Content, ContentType, Collection } = require('../../database/models');
+const { ContentType, Collection, Content } = require('../../database/models');
 
 const createContentType = async (name) => {
   const newCollection = await Collection.create({ name });
@@ -9,7 +9,22 @@ const updateContentType = async (name, id) => {
   await ContentType.update({ name }, { where: { id } });
   const updatedContentType = await ContentType.findOne({ where: { id } });
   await Collection.update({ name }, { where: { id: updatedContentType.collection_id } });
-  return updatedContentType;
+  return { message: 'Updated Successfully' };
 };
 
-module.exports = { createContentType, updateContentType };
+const addFeatureToContentType = async (id, field_name, field_type) => {
+  const contentType = await ContentType.findOne({ where: { id }});
+  const newFields = { ...contentType.field };
+  newFields[field_name] = field_type;
+  await ContentType.update({ field: newFields }, { where: { id }});
+  const allContent = await Content.findAll({ where: { content_type_id: contentType.id } });
+  await Promise.all(allContent.map((eachContent) => {
+    const newValue = { ...eachContent.value };
+    newValue[field_name] = null;
+    Content.update({ value: newValue}, { where: { id: eachContent.id } });
+  }));
+  return { message: 'Updated Successfully' };
+};
+
+
+module.exports = { createContentType, updateContentType, addFeatureToContentType };
