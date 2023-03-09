@@ -1,4 +1,4 @@
-const { Collection, ContentType } = require('../../database/models');
+const { Collection, ContentType, Content } = require('../../database/models');
 const { contentService } = require('../../src/services');
 
 describe('Content Controller', () => { 
@@ -39,11 +39,25 @@ describe('Content Controller', () => {
         name: 'test name',
       });
       const result = await contentService.updateContentType(1, 'test name');
-      expect(result).toEqual({
+      expect(result).toEqual({ message: 'Updated Successfully' });
+    });
+  });
+
+  describe('Add Feature To Content Type', () => { 
+    it('should add a new Feature to Content Type', async () => {
+      jest.spyOn(ContentType, 'findOne').mockResolvedValue({ 
         id: 1,
         collection_id: 1,
         name: 'test name',
+        field: {
+          feat1: 'value1'
+        }
       });
+      jest.spyOn(ContentType, 'update').mockResolvedValue();
+      jest.spyOn(Content, 'findAll').mockResolvedValue([ '1', '2' ]);
+      jest.spyOn(Promise, 'all').mockResolvedValue();
+      const result = await contentService.addFeatureToContentType(1, 'test_field', 'test_type');
+      expect(result).toEqual({ message: 'Updated Successfully' });
     });
   });
 });
