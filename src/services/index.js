@@ -1,3 +1,4 @@
 const contentService = require('./content');
+const collectionService = require('./collection');
 
-module.exports = { contentService };
+module.exports = { contentService, collectionService };

@@ -13,4 +13,10 @@ router.route('/field')
   .patch(contentController.editFeatureNameOfContentType)
   .delete(contentController.deleteFieldOfContentType);
 
+router.route('/all')
+  .get(contentController.getAllContentType);
+
+router.route('/id')
+  .post(contentController.getContentTypeById);
+
 module.exports = router;

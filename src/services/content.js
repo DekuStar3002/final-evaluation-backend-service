@@ -5,6 +5,16 @@ const createContentType = async (name) => {
   return ContentType.create({ name, collection_id: newCollection.id });
 };
 
+const getAllContentType = async () => {
+  const allContentTypes = await ContentType.findAll();
+  return allContentTypes;
+};
+
+const getContentTypeById = async (id) => {
+  const contentType = await ContentType.findOne({ where: { id } });
+  return contentType;
+};
+
 const updateContentType = async (name, id) => {
   await ContentType.update({ name }, { where: { id } });
   const updatedContentType = await ContentType.findOne({ where: { id } });
@@ -15,7 +25,7 @@ const updateContentType = async (name, id) => {
 const addFeatureToContentType = async (id, field_name, field_type) => {
   const contentType = await ContentType.findOne({ where: { id }});
   const newFields = { ...contentType.field };
-  if(`${field_name}` in newFields) {
+  if(field_name in newFields) {
     throw new Error('Field already exists');
   }
   newFields[field_name] = field_type;
@@ -52,11 +62,11 @@ const deleteFieldOfContentType = async (id, field_name) => {
   await ContentType.update({ field: newFields }, { where: { id }});
   const allContent = await Content.findAll({ where: { content_type_id: contentType.id } });
   await Promise.all(allContent.map((eachContent) => {
-    const newValue = {...eachContent.value };
+    const newValue = { ...eachContent.values };
     delete newValue[field_name];
-    Content.update({ value: newValue}, { where: { id: eachContent.id } });
+    Content.update({ values: newValue}, { where: { id: eachContent.id } });
   }));
   return { message: 'Field Deleted Successfully' };
 };
 
-module.exports = { createContentType, updateContentType, addFeatureToContentType, editFeatureNameOfContentType, deleteFieldOfContentType };
+module.exports = { createContentType, getAllContentType, getContentTypeById, updateContentType, addFeatureToContentType, editFeatureNameOfContentType, deleteFieldOfContentType };

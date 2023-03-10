@@ -1,3 +1,4 @@
 const contentController = require('./content');
+const collectionController = require('./collection');
 
-module.exports = { contentController };
+module.exports = { contentController, collectionController };

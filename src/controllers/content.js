@@ -14,6 +14,34 @@ const createContentType = async (req, res) => {
   }
 };
 
+const getAllContentType = async (req, res) => {
+  try {
+    const contentTypes = await contentService.getAllContentType();
+    res.status(200).json({
+      data: contentTypes
+    });
+  } catch (error) {
+    res.status(500).json({
+      error: error.message
+    });
+  }
+};
+
+const getContentTypeById = async (req, res) => {
+  try {
+    const { id } = req.body;
+    console.log(id);
+    const contentType = await contentService.getContentTypeById(id);
+    res.status(200).json({
+      data: contentType
+    });
+  } catch (error) {
+    res.status(500).json({
+      error: error.message
+    });
+  }
+};
+
 const updateContentType = async (req, res) => {
   try {
     const { name, id } = req.body;
@@ -70,4 +98,4 @@ const deleteFieldOfContentType = async (req, res) => {
   }
 };
 
-module.exports = { createContentType, updateContentType, addFeatureToContentType, editFeatureNameOfContentType,deleteFieldOfContentType };
+module.exports = { createContentType, getAllContentType, getContentTypeById, updateContentType, addFeatureToContentType, editFeatureNameOfContentType,deleteFieldOfContentType };
