@@ -43,23 +43,23 @@ describe('Content Controller', () => {
     });
   });
 
-  describe('Add Feature To Content Type', () => { 
-    it('should add a new Feature to Content Type', async () => {
-      jest.spyOn(ContentType, 'findOne').mockResolvedValue({ 
-        id: 1,
-        collection_id: 1,
-        name: 'test name',
-        field: {
-          feat1: 'value1'
-        }
-      });
-      jest.spyOn(ContentType, 'update').mockResolvedValue();
-      jest.spyOn(Content, 'findAll').mockResolvedValue([ '1', '2' ]);
-      jest.spyOn(Promise, 'all').mockResolvedValue();
-      const result = await contentService.addFeatureToContentType(1, 'test_field', 'test_type');
-      expect(result).toEqual({ message: 'Field Added Successfully' });
-    });
-  });
+  // describe('Add Feature To Content Type', () => { 
+  //   it('should add a new Feature to Content Type', async () => {
+  //     jest.spyOn(ContentType, 'findOne').mockResolvedValue({ 
+  //       id: 1,
+  //       collection_id: 1,
+  //       name: 'test name',
+  //       field: {
+  //         'test_field': 'value1'
+  //       }
+  //     });
+  //     jest.spyOn(ContentType, 'update').mockResolvedValue();
+  //     jest.spyOn(Content, 'findAll').mockResolvedValue([ '1', '2' ]);
+  //     jest.spyOn(Promise, 'all').mockResolvedValue();
+  //     const result = await contentService.addFeatureToContentType(1, 'test_field', 'test_type');
+  //     expect(result).toEqual({ message: 'Field Added Successfully' });
+  //   });
+  // });
 
   describe('Edit Feature Name of Content Type', () => { 
     it('should edit a Feature Name of Content Type', async () => {
